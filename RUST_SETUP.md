@@ -24,7 +24,7 @@ The most visible feature - shows data types inline in your code without you havi
 - **buildScripts**: Enables support for build.rs scripts (commented out by default)
 
 ### 3. Code Checking
-- **checkOnSave.command = "clippy"**: Uses clippy (Rust's linter) instead of basic cargo check
+- **check.command = "clippy"**: Uses clippy (Rust's linter) instead of basic cargo check
 - Provides more helpful warnings and suggestions
 
 ### 4. Completion Enhancements
@@ -60,7 +60,10 @@ Many advanced options are included but commented out. These can be enabled by un
 
 ### Clippy Extra Arguments
 ```lua
--- extraArgs = { "--all", "--", "-W", "clippy::all" },
+-- check = {
+--   command = "clippy",
+--   extraArgs = { "--all", "--", "-W", "clippy::all" },
+-- },
 ```
 
 ### Diagnostics
@@ -86,11 +89,13 @@ Inlay hints should appear automatically when rust_analyzer is running. They show
 - Closure return types: `|x| /* -> i32 */ x + 1`
 
 ### Toggle Inlay Hints (if needed)
-You can add this keymap to toggle hints on/off:
-```lua
-vim.keymap.set("n", "<leader>ih", function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-end, { desc = "Toggle Inlay Hints" })
+You can toggle hints on/off with the new keymap:
+- **`<leader>ih`** - Toggle inlay hints on/off
+
+Or manually in command mode:
+```vim
+:lua vim.lsp.inlay_hint.enable(true)  -- Enable
+:lua vim.lsp.inlay_hint.enable(false) -- Disable
 ```
 
 ### Code Actions
@@ -152,9 +157,40 @@ fn main() {
 ## Troubleshooting
 
 ### Inlay hints not showing?
-1. Make sure you're using Neovim 0.10+: `:version`
-2. Check if LSP is attached: `:LspInfo`
-3. Check rust-analyzer status: `:checkhealth`
+1. **Check Neovim version**: Inlay hints require Neovim 0.10+
+   ```vim
+   :version
+   ```
+   
+2. **Check if LSP is attached**: 
+   ```vim
+   :LspInfo
+   ```
+   Make sure rust_analyzer is attached and running.
+
+3. **Manually enable inlay hints**:
+   ```vim
+   :lua vim.lsp.inlay_hint.enable(true)
+   ```
+
+4. **Check rust-analyzer status**:
+   ```vim
+   :checkhealth
+   ```
+
+5. **Restart LSP**:
+   - Use `<leader>rs` or
+   ```vim
+   :LspRestart
+   ```
+
+6. **Check if hints are supported**:
+   ```vim
+   :lua =vim.lsp.get_active_clients()[1].server_capabilities.inlayHintProvider
+   ```
+   Should return a table, not `nil`.
+
+7. **Make sure you're in a Rust project**: rust-analyzer needs a `Cargo.toml` file to work properly.
 
 ### Slow performance?
 Some options can be adjusted if rust_analyzer is slow:

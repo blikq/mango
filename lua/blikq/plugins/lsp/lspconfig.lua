@@ -26,6 +26,12 @@ return {
 				-- See `:help vim.lsp.*` for documentation on any of the below functions
 				local opts = { buffer = ev.buf, silent = true }
 
+				-- Enable inlay hints if supported by the server
+				local client = vim.lsp.get_client_by_id(ev.data.client_id)
+				if client and client.server_capabilities.inlayHintProvider then
+					vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+				end
+
 				-- set keybinds
 				opts.desc = "Show LSP references"
 				keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
@@ -65,6 +71,12 @@ return {
 
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+				-- Toggle inlay hints (Neovim 0.10+)
+				opts.desc = "Toggle Inlay Hints"
+				keymap.set("n", "<leader>ih", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf }), { bufnr = ev.buf })
+				end, opts)
 			end,
 		})
 
@@ -170,8 +182,8 @@ return {
 						-- },
 					},
 
-					-- Check on save configuration
-					checkOnSave = {
+					-- Check configuration (runs on save)
+					check = {
 						-- Use clippy for checking instead of cargo check
 						command = "clippy",
 						-- Extra args to pass to the check command
