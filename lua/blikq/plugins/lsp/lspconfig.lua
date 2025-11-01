@@ -121,5 +121,178 @@ return {
 				},
 			},
 		})
+
+		-- configure rust analyzer with comprehensive settings
+		lspconfig["rust_analyzer"].setup({
+			capabilities = capabilities,
+			settings = {
+				["rust-analyzer"] = {
+					-- Enable inlay hints for type annotations
+					inlayHints = {
+						enable = true,
+						-- Show inlay hints for parameter names
+						parameterHints = {
+							enable = true,
+						},
+						-- Show inlay hints for type annotations
+						typeHints = {
+							enable = true,
+							hideClosureInitialization = false,
+							hideNamedConstructor = false,
+						},
+						-- Show inlay hints for chaining
+						chainingHints = {
+							enable = true,
+						},
+						-- Maximum length for inlay hints
+						maxLength = 25,
+					},
+
+					-- Cargo configuration
+					cargo = {
+						-- Load out-of-date workspaces
+						-- loadOutDirsFromCheck = true,
+						-- Run cargo check on save
+						-- buildScripts = {
+						-- 	enable = true,
+						-- },
+						-- All features
+						allFeatures = true,
+						-- Specify features to activate
+						-- features = {},
+					},
+
+					-- Proc macro support
+					procMacro = {
+						enable = true,
+						-- attributes = {
+						-- 	enable = true,
+						-- },
+					},
+
+					-- Check on save configuration
+					checkOnSave = {
+						-- Use clippy for checking instead of cargo check
+						command = "clippy",
+						-- Extra args to pass to the check command
+						-- extraArgs = { "--all", "--", "-W", "clippy::all" },
+					},
+
+					-- Diagnostics configuration
+					diagnostics = {
+						enable = true,
+						-- Disable specific diagnostics
+						-- disabled = { "unresolved-proc-macro" },
+						-- Enable experimental diagnostics
+						-- experimental = {
+						-- 	enable = true,
+						-- },
+					},
+
+					-- Completion configuration
+					completion = {
+						-- Enable autoimport on completion
+						autoimport = {
+							enable = true,
+						},
+						-- Enable postfix completions like .if, .match
+						postfix = {
+							enable = true,
+						},
+						-- Show full function signatures in completion
+						callable = {
+							snippets = "fill_arguments",
+						},
+					},
+
+					-- Code lens configuration
+					lens = {
+						enable = true,
+						-- Show references
+						references = {
+							adt = { enable = true },
+							enumVariant = { enable = true },
+							method = { enable = true },
+							trait = { enable = true },
+						},
+						-- Show implementations
+						implementations = {
+							enable = true,
+						},
+						-- Show run and debug lens
+						run = {
+							enable = true,
+						},
+						debug = {
+							enable = true,
+						},
+					},
+
+					-- Hover actions configuration
+					hover = {
+						actions = {
+							enable = true,
+							-- Show implementations
+							implementations = {
+								enable = true,
+							},
+							-- Show references
+							references = {
+								enable = true,
+							},
+							-- Show run and debug
+							run = {
+								enable = true,
+							},
+							debug = {
+								enable = true,
+							},
+						},
+						-- Documentation configuration
+						documentation = {
+							enable = true,
+						},
+					},
+
+					-- Assist configuration (code actions)
+					assist = {
+						-- Import granularity (crate, module, item)
+						importGranularity = "module",
+						-- Import prefix (by_self, by_crate, plain)
+						importPrefix = "by_self",
+						-- Import enforcement
+						-- importEnforceGranularity = true,
+					},
+
+					-- Formatting configuration
+					-- rustfmt = {
+					-- 	extraArgs = {},
+					-- 	overrideCommand = nil,
+					-- 	rangeFormatting = {
+					-- 		enable = false,
+					-- 	},
+					-- },
+
+					-- Workspace symbol search configuration
+					workspace = {
+						symbol = {
+							search = {
+								-- Search scope: workspace, workspace_and_dependencies
+								scope = "workspace",
+								-- Search kind: only_types, all_symbols
+								kind = "all_symbols",
+								-- Limit number of results
+								limit = 128,
+							},
+						},
+					},
+
+					-- Notifications configuration
+					-- notifications = {
+					-- 	cargoTomlNotFound = true,
+					-- },
+				},
+			},
+		})
 	end,
 }

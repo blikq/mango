@@ -35,6 +35,7 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
+        "rust_analyzer", -- rust language server
       },
     })
 
@@ -46,6 +47,9 @@ return {
         "black", -- python formatter
         "pylint", -- python linter
         "eslint_d", -- js linter
+        -- Rust tools (Note: rustfmt and clippy usually come with rustup)
+        -- "rustfmt", -- rust formatter (managed by rustup)
+        -- "clippy", -- rust linter (managed by rustup)
       },
     })
   end,
