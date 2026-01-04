@@ -8,9 +8,6 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 	},
 	config = function()
-		-- import lspconfig plugin
-		local lspconfig = require("lspconfig")
-
 		-- import mason_lspconfig plugin
 		local mason_lspconfig = require("mason-lspconfig")
 
@@ -98,13 +95,13 @@ return {
 
 		-- configure individual servers manually since mason-lspconfig no longer uses setup_handlers
 		-- configure graphql language server
-		lspconfig["graphql"].setup({
+		vim.lsp.config.graphql = {
 			capabilities = capabilities,
 			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-		})
+		}
 
 		-- configure emmet language server
-		lspconfig["emmet_ls"].setup({
+		vim.lsp.config.emmet_ls = {
 			capabilities = capabilities,
 			filetypes = {
 				"html",
@@ -116,10 +113,10 @@ return {
 				"less",
 				"svelte",
 			},
-		})
+		}
 
 		-- configure lua server (with special settings)
-		lspconfig["lua_ls"].setup({
+		vim.lsp.config.lua_ls = {
 			capabilities = capabilities,
 			settings = {
 				Lua = {
@@ -132,10 +129,10 @@ return {
 					},
 				},
 			},
-		})
+		}
 
 		-- configure rust analyzer with comprehensive settings
-		lspconfig["rust_analyzer"].setup({
+		vim.lsp.config.rust_analyzer = {
 			capabilities = capabilities,
 			settings = {
 				["rust-analyzer"] = {
@@ -305,6 +302,6 @@ return {
 					-- },
 				},
 			},
-		})
+		}
 	end,
 }
